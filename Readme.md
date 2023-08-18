@@ -1,7 +1,8 @@
 # local-stream
 
-![Logo](public/icons/icon_transparent.svg)
-
+<p align="center">
+  <img  src="public/icons/icon_transparent.svg">
+</p>
 
 A minimal WebRTC Service for streaming | calling | broadcasting form any with an up to date browser.
 
