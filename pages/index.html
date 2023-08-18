@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalCast - Start</title>
+    <link rel="icon" href="/icons/icon_dark.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body class="bg-zinc-200 dark:bg-zinc-800">
+    <div class="grid place-items-center h-[100vh]">
+        <div class="text-center p-6">
+            <div x-data class="mb-8">
+                <img x-show="$store.theme.isDark" class="max-w-[70vw] max-h-[30vh] block mx-auto"
+                    src="/icons/icon_dark@3x.png" alt="Logo">
+                <img x-show="!$store.theme.isDark" class="max-w-[70vw] max-h-[30vh] block mx-auto"
+                    src="/icons/icon_light@3x.png" alt="Logo">
+            </div>
+            <h1 class="text-neutral-800 dark:text-slate-200 text-8xl font-bold"
+                style="word-wrap: break-word; hyphens: none;">
+                <span class="text-indigo-700">L</span>ocal <span class="text-indigo-700">C</span>ast
+            </h1>
+            <p class="text-neutral-600 dark:text-slate-400 text-2xl mt-2 cursor-default">
+                <span class="hover:text-indigo-600 dark:hover:text-indigo-500">Stream</span>
+                <span class="mx-2">|</span>
+                <span class="hover:text-indigo-600 dark:hover:text-indigo-500">Conference</span>
+                <span class="mx-2">|</span>
+                <span class="hover:text-indigo-600 dark:hover:text-indigo-500">Call</span>
+            <div class="flex items-center justify-around mt-8 flex-wrap">
+                <a href="send.html"
+                    class="group px-6 py-2 m-4 bg-indigo-700 hover:bg-indigo-800 active:scale-95 rounded text-slate-100 text-lg font-semibold flex items-center">
+                    <span>
+                        Stream
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-6 h-6 ml-2 group-hover:translate-x-2 transition-transform" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                    </svg>
+                </a>
+                <a href="receive.html"
+                    class="group px-6 py-2 m-4 bg-indigo-700 hover:bg-indigo-800 active:scale-95 rounded text-slate-100 text-lg font-semibold flex items-center">
+                    <span>
+                        Aggregate
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-6 h-6 ml-2 group-hover:translate-x-2 transition-transform" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div x-data class="fixed top-1 right-1">
+        <button @click="$store.theme.toggle()"
+            class="p-2 text-nutral-800 dark:text-slate-200 hover:text-indigo-600 active:scale-95 dark:hover:text-indigo-500 transition-colors">
+            <svg x-show="!$store.theme.isDark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+            </svg>
+            <svg x-show="$store.theme.isDark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+            </svg>
+        </button>
+    </div>
+    <div x-data class="text-neutral-600 dark:text-slate-400 fixed bottom-1 left-1 right-1 text-center text-sm">
+        Made with
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" fill="currentColor"
+            class="w-4 h-4 fill-indigo-600 dark:fill-indigo-500 inline">
+            <path
+                d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+        </svg>
+        in <span x-text="new Date().getFullYear()"></span>
+    </div>
+    <script type="module" src="/src/index.ts"></script>
+</body>
+
+</html>
