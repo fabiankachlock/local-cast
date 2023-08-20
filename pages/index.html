@@ -10,7 +10,7 @@
 
   <body class="bg-zinc-200 dark:bg-zinc-800">
     <div class="grid place-items-center h-[100vh]">
-      <div class="text-center p-6">
+      <div class="text-center p-6" x-data="select">
         <div x-data class="mb-8">
           <img
             x-show="$store.theme.isDark"
@@ -35,60 +35,31 @@
         <p
           class="text-neutral-600 dark:text-slate-400 text-2xl mt-2 cursor-default"
         >
-          <span class="hover:text-indigo-600 dark:hover:text-indigo-500"
-            >Stream</span
+          <button
+            class="hover:text-indigo-600 dark:hover:text-indigo-500"
+            :class="mode === 'stream' ? 'text-indigo-600 dark:text-indigo-500' : ''"
+            @click="mode = 'stream'"
           >
+            Stream
+          </button>
           <span class="mx-2">|</span>
-          <span class="hover:text-indigo-600 dark:hover:text-indigo-500"
+          <span
+            class="hover:text-indigo-600 dark:hover:text-indigo-500"
+            @click="mode = 'call'"
             >Call</span
           >
           <span class="mx-2">|</span>
-          <span class="hover:text-indigo-600 dark:hover:text-indigo-500"
+          <span
+            class="hover:text-indigo-600 dark:hover:text-indigo-500"
+            @click="mode = 'broadcast'"
             >Broadcast</span
           >
         </p>
 
         <div class="flex items-center justify-around mt-8 flex-wrap">
-          <a
-            href="send.html"
-            class="group px-6 py-2 m-4 bg-indigo-700 hover:bg-indigo-800 active:scale-95 rounded text-slate-100 text-lg font-semibold flex items-center"
-          >
-            <span> Stream </span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6 ml-2 group-hover:translate-x-2 transition-transform"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-              />
-            </svg>
-          </a>
-          <a
-            href="receive.html"
-            class="group px-6 py-2 m-4 bg-indigo-700 hover:bg-indigo-800 active:scale-95 rounded text-slate-100 text-lg font-semibold flex items-center"
-          >
-            <span> Aggregate </span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6 ml-2 group-hover:translate-x-2 transition-transform"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-              />
-            </svg>
-          </a>
+          <%- include('partials/HeroLink.html', { title: 'Stream', link:
+          'send.html' }); %> <%- include('partials/HeroLink.html', { title:
+          'Aggregate', link: 'receive.html' }); %>
         </div>
       </div>
     </div>
