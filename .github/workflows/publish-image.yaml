@@ -1,4 +1,4 @@
-name: create and publish a local-cast docker image
+name: Publish Docker
 
 on:
   workflow_dispatch:
