@@ -9,7 +9,7 @@
   </head>
 
   <body class="bg-zinc-200 dark:bg-zinc-800">
-    <div class="grid place-items-center h-[100vh]">
+    <div class="grid justify-center h-[100vh] relative z-10">
       <div class="text-center p-6" x-data="select">
         <div x-data class="mb-8">
           <img
@@ -43,27 +43,49 @@
             Stream
           </button>
           <span class="mx-2">|</span>
-          <span
+          <button
             class="hover:text-indigo-600 dark:hover:text-indigo-500"
+            :class="mode === 'call' ? 'text-indigo-600 dark:text-indigo-500' : ''"
             @click="mode = 'call'"
-            >Call</span
           >
+            Call
+          </button>
           <span class="mx-2">|</span>
-          <span
+          <button
             class="hover:text-indigo-600 dark:hover:text-indigo-500"
+            :class="mode === 'broadcast' ? 'text-indigo-600 dark:text-indigo-500' : ''"
             @click="mode = 'broadcast'"
-            >Broadcast</span
           >
+            Broadcast
+          </button>
         </p>
 
-        <div class="flex items-center justify-around mt-8 flex-wrap">
+        <div
+          x-show="mode === 'stream'"
+          class="flex items-center justify-around mt-8 flex-wrap"
+        >
           <%- include('partials/HeroLink.html', { title: 'Stream', link:
           'send.html' }); %> <%- include('partials/HeroLink.html', { title:
           'Aggregate', link: 'receive.html' }); %>
         </div>
+        <div
+          x-show="mode === 'call'"
+          class="flex items-center justify-around mt-8 flex-wrap"
+        >
+          <%- include('partials/HeroLink.html', { title: 'Dial', link:
+          'call.html' }); %>
+        </div>
+        <div
+          x-show="mode === 'broadcast'"
+          class="flex items-center justify-around mt-8 flex-wrap"
+        >
+          <%- include('partials/HeroLink.html', { title: 'Join', link:
+          'call.html' }); %> <%- include('partials/HeroLink.html', { title:
+          'Create', link: 'call.html' }); %>
+        </div>
       </div>
     </div>
-    <div x-data class="fixed top-1 right-1">
+    <div x-data class="fixed top-1 right-1 z-20">
       <button
         @click="$store.theme.toggle()"
         class="p-2 text-nutral-800 dark:text-slate-200 hover:text-indigo-600 active:scale-95 dark:hover:text-indigo-500 transition-colors"
@@ -102,7 +124,7 @@
     </div>
     <div
       x-data
-      class="text-neutral-600 dark:text-slate-400 fixed bottom-1 left-1 right-1 text-center text-sm"
+      class="text-neutral-600 dark:text-slate-400 fixed bottom-1 left-1 right-1 z-0 text-center text-sm"
     >
       Made with
       <svg

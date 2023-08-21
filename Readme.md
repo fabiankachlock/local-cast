@@ -1,4 +1,4 @@
-# local-stream
+# local-cast
 
 <p align="center">
   <img  src="public/icons/icon_transparent.svg">
