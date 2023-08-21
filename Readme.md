@@ -32,4 +32,4 @@ Non WebRTC Features
 
 - [ ] allow multiple session per browser (bind session to tab)
 - [ ] fix that video sizing...
-- [ ] Docker Image
+- [x] Docker Image
