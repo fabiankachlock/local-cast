@@ -1,29 +1,21 @@
-import { deepMerge } from "./helper";
+import { deepMerge } from './helper';
 
 export class ConstraintHelper {
-  public static withDimensions(
-    w: number,
-    h: number,
-    force = false
-  ): MediaTrackConstraints {
+  public static withDimensions(w: number, h: number, force = false): MediaTrackConstraints {
     return {
       width: {
-        [force ? "exact" : "ideal"]: w,
+        [force ? 'exact' : 'ideal']: w,
       },
       height: {
-        [force ? "exact" : "ideal"]: h,
+        [force ? 'exact' : 'ideal']: h,
       },
     };
   }
 
-  public static withAspectRation(
-    w: number,
-    h: number,
-    force = false
-  ): MediaTrackConstraints {
+  public static withAspectRation(w: number, h: number, force = false): MediaTrackConstraints {
     return {
       aspectRatio: {
-        [force ? "exact" : "ideal"]: w / h,
+        [force ? 'exact' : 'ideal']: w / h,
       },
     };
   }
@@ -31,7 +23,7 @@ export class ConstraintHelper {
   public static forDevice(id: string, force = false): MediaTrackConstraints {
     return {
       deviceId: {
-        [force ? "exact" : "ideal"]: id,
+        [force ? 'exact' : 'ideal']: id,
       },
     };
   }
@@ -60,9 +52,7 @@ export class UserMediaProvider {
    * @param constraints the MediaStreamConstraints
    * @returns a new stream
    */
-  public async requestUserMedia(
-    constraints?: MediaStreamConstraints
-  ): Promise<MediaStream> {
+  public async requestUserMedia(constraints?: MediaStreamConstraints): Promise<MediaStream> {
     if (constraints) {
       this._constraints = constraints;
     }
@@ -77,9 +67,7 @@ export class UserMediaProvider {
    *
    * @param constraints
    */
-  public async applyConstraints(
-    constraints: Partial<MediaStreamConstraints>
-  ): Promise<MediaStream> {
+  public async applyConstraints(constraints: Partial<MediaStreamConstraints>): Promise<MediaStream> {
     this.mergeConstraints(constraints);
     if (!this._stream) return this.requestUserMedia(); // use the local (merged constraints)
 
@@ -89,9 +77,7 @@ export class UserMediaProvider {
       this._stream.removeTrack(track);
     }
 
-    const newStream = await navigator.mediaDevices.getUserMedia(
-      this._constraints
-    );
+    const newStream = await navigator.mediaDevices.getUserMedia(this._constraints);
 
     for (const track of newStream.getTracks()) {
       this._stream.addTrack(track);
@@ -103,34 +89,22 @@ export class UserMediaProvider {
   }
 
   public mergeConstraints(constraints: Partial<MediaStreamConstraints>) {
-    this._constraints.peerIdentity =
-      constraints.peerIdentity || this._constraints.peerIdentity;
-    this._constraints.preferCurrentTab =
-      constraints.preferCurrentTab || this._constraints.preferCurrentTab;
+    this._constraints.peerIdentity = constraints.peerIdentity || this._constraints.peerIdentity;
+    this._constraints.preferCurrentTab = constraints.preferCurrentTab || this._constraints.preferCurrentTab;
 
-    this._constraints.audio = this.mergeTrackConstraints(
-      this._constraints.audio,
-      constraints.audio
-    );
-    this._constraints.video = this.mergeTrackConstraints(
-      this._constraints.video,
-      constraints.video
-    );
+    this._constraints.audio = this.mergeTrackConstraints(this._constraints.audio, constraints.audio);
+    this._constraints.video = this.mergeTrackConstraints(this._constraints.video, constraints.video);
   }
 
   private mergeTrackConstraints(
     current: boolean | MediaTrackConstraints | undefined,
-    other: boolean | MediaTrackConstraints | undefined
+    other: boolean | MediaTrackConstraints | undefined,
   ): boolean | MediaTrackConstraints | undefined {
-    if (typeof other === "undefined") {
+    if (typeof other === 'undefined') {
       return current;
     }
 
-    if (
-      typeof other === "boolean" ||
-      typeof current === "boolean" ||
-      typeof current === "undefined"
-    ) {
+    if (typeof other === 'boolean' || typeof current === 'boolean' || typeof current === 'undefined') {
       return other;
     }
 

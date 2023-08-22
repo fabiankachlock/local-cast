@@ -1,9 +1,9 @@
-import Alpine from "alpinejs/dist/module.esm";
+import Alpine from 'alpinejs/dist/module.esm';
 
-import "./theme";
+import './theme';
 
-Alpine.data("select", () => ({
-  mode: "stream" as "stream" | "call" | "broadcast",
+Alpine.data('select', () => ({
+  mode: 'stream' as 'stream' | 'call' | 'broadcast',
   select(id: string) {
     this.mode = id;
   },

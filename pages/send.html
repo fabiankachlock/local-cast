@@ -1,153 +1,219 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= title %>
-    </title>
-    <link rel="icon" href="/icons/icon_dark.svg" type="image/svg+xml">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="icon" href="/icons/icon_dark.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/style.css" />
-</head>
+  </head>
 
-<body class="bg-zinc-200 dark:bg-zinc-800">
+  <body class="bg-zinc-200 dark:bg-zinc-800">
     <nav id="navbar">
-        <%- include('partials/navbar.html', { name: navbarBadge }); %>
+      <%- include('partials/navbar.html', { name: navbarBadge }); %>
     </nav>
     <div id="main">
-        <div id="main" class="mt-14 mb-2 mx-6 absolute" style="height: calc(100vh - 4rem); width: calc(100vw - 3rem)">
-            <p x-data x-cloak x-show="$store.sender.mode === 'loading'" class="text-neutral-800 dark:text-slate-200">
-                Connecting to Server...</p>
-            <div x-data x-cloak x-show="$store.sender.error">
-                <div
-                    class="absolute top-2 left-2 right-2 flex bg-red-700 dark:bg-red-400 text-slate-100 dark:text-gray-900 p-2 rounded">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                        stroke="currentColor" class="w-8 h-8 mr-4">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
-                    </svg>
-                    <div class="flex justify-between items-top flex-1">
-                        <span>
-                            Error while connecting to client: <span x-text="$store.sender.error"></span>
-                        </span>
-                        <button @click="$store.sender.error = undefined" class="h-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+      <div id="main" class="mt-14 mb-2 mx-6 absolute" style="height: calc(100vh - 4rem); width: calc(100vw - 3rem)">
+        <p x-data x-cloak x-show="$store.sender.mode === 'loading'" class="text-neutral-800 dark:text-slate-200">
+          Connecting to Server...
+        </p>
+        <div x-data x-cloak x-show="$store.sender.error">
+          <div
+            class="absolute top-2 left-2 right-2 flex bg-red-700 dark:bg-red-400 text-slate-100 dark:text-gray-900 p-2 rounded"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="w-8 h-8 mr-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+              />
+            </svg>
+            <div class="flex justify-between items-top flex-1">
+              <span> Error while connecting to client: <span x-text="$store.sender.error"></span> </span>
+              <button @click="$store.sender.error = undefined" class="h-6">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
-            <div x-data x-cloak x-show="$store.sender.mode === 'join'" class="grid w-full h-full place-items-center">
-                <div class="bg-zinc-300 dark:bg-zinc-900 p-8 rounded-lg">
-                    <p class="text-neutral-800 dark:text-slate-200 text-2xl font-semibold mb-4 text-center">Join a
-                        room
-                    </p>
-                    <label for="id" class="block text-neutral-600 dark:text-slate-400">Room</label>
-                    <select name="id" id="id" x-ref="select"
-                        class="w-full bg-zinc-300 dark:bg-zinc-700 text-neutral-800 dark:text-slate-200 rounded">
-                        <template x-for="room in $store.sender.availableRooms">
-                            <option :value="room" x-text="room"></option>
-                        </template>
-                    </select>
-                    <button href="receive.html" @click="$store.sender.join($refs.select.value)"
-                        class="group px-6 py-2 mt-4 ml-auto bg-indigo-700 hover:bg-indigo-800 rounded text-slate-100 text-lg font-semibold flex items-center">
-                        <span>
-                            Join
-                        </span>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6 ml-3 group-hover:scale-110 transition-transform">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div x-data x-show="$store.sender.mode === 'active'" class="w-full h-full">
-                <header class="flex justify-between items-start flex-wrap">
-                    <p class="text-neutral-800 dark:text-slate-200 text-xl">RoomID: <span
-                            x-text="$store.sender.roomId"></span>
-                    </p>
-
-                    <button @click="$store.sender.leave()"
-                        class="active:scale-95 group px-6 py-2 bg-indigo-700 hover:bg-indigo-800 rounded text-lg font-semibold flex items-center text-slate-100 transition">
-                        Leave
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6 ml-2 group-hover:translate-x-2 transition-transform">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-                        </svg>
-                    </button>
-                </header>
-                <div id="videoOut" class="relative mt-4">
-                    <video id="localVideo" class="block mx-auto" autoplay playsinline></video>
-                </div>
-                <div id="options" class="flex justify-between items-end flex-wrap-reverse mt-4 mb-8">
-                    <div class="flex justify-start items-start flex-col gap-4">
-                        <div x-data class="flex flex-nowrap justify-start items-center gap-2">
-                            <label for="audio-select" class="block text-neutral-600 dark:text-slate-400">Audio</label>
-                            <select name="audio-input" id="audio-seelct" x-ref="audio"
-                                @change="$store.sender.changeAudio($refs.audio.value)"
-                                class="w-full bg-zinc-300 dark:bg-zinc-700 text-neutral-800 dark:text-slate-200 rounded py-0 pl-0 pr-6">
-                                <template x-for="d in $store.sender.audioDevices">
-                                    <option :key="d.deviceId" :value="d.deviceId" x-text="d.label"></option>
-                                </template>
-                            </select>
-                        </div>
-                        <div class="flex flex-nowrap justify-start items-center gap-2">
-                            <label for="video-select" class="block text-neutral-600 dark:text-slate-400">Video</label>
-                            <select name="video-input" id="video-select" x-ref="video"
-                                @change="$store.sender.changeVideo($refs.video.value)"
-                                class="w-full bg-zinc-300 dark:bg-zinc-700 text-neutral-800 dark:text-slate-200 rounded py-0 pl-0 pr-6">
-                                <template x-for="d in $store.sender.videoDevices">
-                                    <option :key="d.deviceId" :value="d.deviceId" x-text="d.label"></option>
-                                </template>
-                            </select>
-                        </div>
-                        <div class="flex flex-nowrap justify-start items-center gap-2">
-                            <label for="resolution-select"
-                                class="block text-neutral-600 dark:text-slate-400">Resolution</label>
-                            <select name="resolution-input" id="resolution-select" x-ref="resolution"
-                                @change="$store.sender.applyResolution($refs.resolution.value)"
-                                class="w-full bg-zinc-300 dark:bg-zinc-700 text-neutral-800 dark:text-slate-200 rounded py-0 pl-0 pr-6">
-                                <option key="auto" value="auto">Auto</option>
-                                <template x-for="([name, c]) in Object.entries($store.sender.constraints)">
-                                    <option :key="name" :value="name"
-                                        x-text="`${c.video.width.exact} x ${c.video.height.exact}`"></option>
-                                </template>
-                            </select>
-                        </div>
-                    </div>
-
-
-                    <button x-data @click="$store.sender.toggleMute()"
-                        class="active:scale-95 group px-6 py-2 bg-indigo-700 hover:bg-indigo-800 rounded font-semibold flex items-center text-slate-100">
-                        <span class="mr-2">
-                            Toggle Audio
-                        </span>
-                        <svg x-show="$store.sender.muted" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                            class="w-6 h-6 group-hover:scale-110">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z" />
-                        </svg>
-                        <svg x-show="!$store.sender.muted" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                            class="w-6 h-6 group-hover:scale-110">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
+          </div>
         </div>
+        <div x-data x-cloak x-show="$store.sender.mode === 'join'" class="grid w-full h-full place-items-center">
+          <div class="bg-zinc-300 dark:bg-zinc-900 p-8 rounded-lg">
+            <p class="text-neutral-800 dark:text-slate-200 text-2xl font-semibold mb-4 text-center">Join a room</p>
+            <label for="id" class="block text-neutral-600 dark:text-slate-400">Room</label>
+            <select
+              name="id"
+              id="id"
+              x-ref="select"
+              class="w-full bg-zinc-300 dark:bg-zinc-700 text-neutral-800 dark:text-slate-200 rounded"
+            >
+              <template x-for="room in $store.sender.availableRooms">
+                <option :value="room" x-text="room"></option>
+              </template>
+            </select>
+            <button
+              href="receive.html"
+              @click="$store.sender.join($refs.select.value)"
+              class="group px-6 py-2 mt-4 ml-auto bg-indigo-700 hover:bg-indigo-800 rounded text-slate-100 text-lg font-semibold flex items-center"
+            >
+              <span> Join </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 ml-3 group-hover:scale-110 transition-transform"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div x-data x-show="$store.sender.mode === 'active'" class="w-full h-full">
+          <header class="flex justify-between items-start flex-wrap">
+            <p class="text-neutral-800 dark:text-slate-200 text-xl">
+              RoomID: <span x-text="$store.sender.roomId"></span>
+            </p>
+
+            <button
+              @click="$store.sender.leave()"
+              class="active:scale-95 group px-6 py-2 bg-indigo-700 hover:bg-indigo-800 rounded text-lg font-semibold flex items-center text-slate-100 transition"
+            >
+              Leave
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 ml-2 group-hover:translate-x-2 transition-transform"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+                />
+              </svg>
+            </button>
+          </header>
+          <div id="videoOut" class="relative mt-4">
+            <video id="localVideo" class="block mx-auto" autoplay playsinline></video>
+          </div>
+          <div id="options" class="flex justify-between items-end flex-wrap-reverse mt-4 mb-8">
+            <div class="flex justify-start items-start flex-col gap-4">
+              <div x-data class="flex flex-nowrap justify-start items-center gap-2">
+                <label for="audio-select" class="block text-neutral-600 dark:text-slate-400">Audio</label>
+                <select
+                  name="audio-input"
+                  id="audio-seelct"
+                  x-ref="audio"
+                  @change="$store.sender.changeAudio($refs.audio.value)"
+                  class="w-full bg-zinc-300 dark:bg-zinc-700 text-neutral-800 dark:text-slate-200 rounded py-0 pl-0 pr-6"
+                >
+                  <template x-for="d in $store.sender.audioDevices">
+                    <option :key="d.deviceId" :value="d.deviceId" x-text="d.label"></option>
+                  </template>
+                </select>
+              </div>
+              <div class="flex flex-nowrap justify-start items-center gap-2">
+                <label for="video-select" class="block text-neutral-600 dark:text-slate-400">Video</label>
+                <select
+                  name="video-input"
+                  id="video-select"
+                  x-ref="video"
+                  @change="$store.sender.changeVideo($refs.video.value)"
+                  class="w-full bg-zinc-300 dark:bg-zinc-700 text-neutral-800 dark:text-slate-200 rounded py-0 pl-0 pr-6"
+                >
+                  <template x-for="d in $store.sender.videoDevices">
+                    <option :key="d.deviceId" :value="d.deviceId" x-text="d.label"></option>
+                  </template>
+                </select>
+              </div>
+              <div class="flex flex-nowrap justify-start items-center gap-2">
+                <label for="resolution-select" class="block text-neutral-600 dark:text-slate-400">Resolution</label>
+                <select
+                  name="resolution-input"
+                  id="resolution-select"
+                  x-ref="resolution"
+                  @change="$store.sender.applyResolution($refs.resolution.value)"
+                  class="w-full bg-zinc-300 dark:bg-zinc-700 text-neutral-800 dark:text-slate-200 rounded py-0 pl-0 pr-6"
+                >
+                  <option key="auto" value="auto">Auto</option>
+                  <template x-for="([name, c]) in Object.entries($store.sender.constraints)">
+                    <option
+                      :key="name"
+                      :value="name"
+                      x-text="`${c.video.width.exact} x ${c.video.height.exact}`"
+                    ></option>
+                  </template>
+                </select>
+              </div>
+            </div>
+
+            <button
+              x-data
+              @click="$store.sender.toggleMute()"
+              class="active:scale-95 group px-6 py-2 bg-indigo-700 hover:bg-indigo-800 rounded font-semibold flex items-center text-slate-100"
+            >
+              <span class="mr-2"> Toggle Audio </span>
+              <svg
+                x-show="$store.sender.muted"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 group-hover:scale-110"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6l4.72-4.72a.75.75 0 011.28.531V19.94a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.506-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.395C2.806 8.757 3.63 8.25 4.51 8.25H6.75z"
+                />
+              </svg>
+              <svg
+                x-show="!$store.sender.muted"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 group-hover:scale-110"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     <footer id="footer">
-        <%- include('partials/footer.html'); %>
+      <%- include('partials/footer.html'); %>
     </footer>
     <script type="module" src="/src/send.ts"></script>
-</body>
-
+  </body>
 </html>

@@ -15,21 +15,16 @@ export class Awaiter<T, E> {
   }
 
   public reject(val: E) {
-    console.error("REJ");
+    console.error('REJ');
     this._reject(val);
   }
 }
 
-export const sendEvent = async (
-  to: number,
-  from: number,
-  type: string,
-  data: string
-) =>
-  fetch("/api/send", {
-    method: "POST",
+export const sendEvent = async (to: number, from: number, type: string, data: string) =>
+  fetch('/api/send', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       type: type,
@@ -42,12 +37,9 @@ export const sendEvent = async (
 /**
  * deep merges two objects by mutating a
  */
-export const deepMerge = <T extends object = Record<string, unknown>>(
-  a: T,
-  b: T
-): T => {
+export const deepMerge = <T extends object = Record<string, unknown>>(a: T, b: T): T => {
   for (const key in b) {
-    if (typeof a[key] === "object" && typeof b[key] === "object") {
+    if (typeof a[key] === 'object' && typeof b[key] === 'object') {
       // @ts-ignore
       a[key] = deepMerge(a[key], b[key]);
     } else {

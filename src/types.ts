@@ -1,22 +1,20 @@
-
-
 export type Session = {
-    id: number
-}
+  id: number;
+};
 
 export type Offer = {
-    from: number;
-    offer: string;
-    channel: string;
-}
+  from: number;
+  offer: string;
+  channel: string;
+};
 
 export type Answer = {
-    from: number;
-    answer: string,
-}
+  from: number;
+  answer: string;
+};
 
 export type Candidate = {
-    candidate: RTCIceCandidate;
-    sdpMid: string;
-    sdpMLineIndex: number;
-}
+  candidate: RTCIceCandidate;
+  sdpMid: string;
+  sdpMLineIndex: number;
+};

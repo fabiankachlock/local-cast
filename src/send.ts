@@ -1,12 +1,12 @@
-import Alpine from "alpinejs/dist/module.esm";
+import Alpine from 'alpinejs/dist/module.esm';
 
-import "./theme";
-import { Answer, Candidate, Offer, Session } from "./types";
-import { sendEvent } from "./helper";
-import { UserMediaProvider } from "./MediaProvider";
+import './theme';
+import { Answer, Candidate, Offer, Session } from './types';
+import { sendEvent } from './helper';
+import { UserMediaProvider } from './MediaProvider';
 
 type State = {
-  mode: "loading" | "join" | "active";
+  mode: 'loading' | 'join' | 'active';
   error?: string;
   availableRooms: number[];
   myId?: number;
@@ -41,8 +41,8 @@ class SenderController {
   private _streamProvider = new UserMediaProvider();
 
   constructor() {
-    Alpine.store("sender", {
-      mode: "loading",
+    Alpine.store('sender', {
+      mode: 'loading',
       errror: undefined,
       myId: undefined,
       roomId: undefined,
@@ -56,41 +56,35 @@ class SenderController {
       toggleMute: () => this.toggleMute(),
       applyResolution: (id: string) => this.applyResolution(id),
     });
-    this.state = Alpine.store("sender") as State;
+    this.state = Alpine.store('sender') as State;
 
-    fetch("/api/register")
+    fetch('/api/register')
       .then((r) => r.json())
       .then((session) => {
         this.state.myId = (session as Session).id;
-        this.events = new EventSource("/api/events", {
+        this.events = new EventSource('/api/events', {
           withCredentials: true,
         });
-        this.events.addEventListener("message", console.log);
-        this.events.addEventListener("candidate", async (e) =>
-          this.handleCandidate(JSON.parse(e.data) as Candidate)
-        );
-        this.events.addEventListener("answer", (e) =>
-          this.handleAnswer(JSON.parse(e.data) as Answer)
-        );
+        this.events.addEventListener('message', console.log);
+        this.events.addEventListener('candidate', async (e) => this.handleCandidate(JSON.parse(e.data) as Candidate));
+        this.events.addEventListener('answer', (e) => this.handleAnswer(JSON.parse(e.data) as Answer));
 
-        fetch("api/list")
+        fetch('api/list')
           .then((r) => r.json())
           .then((list) => {
-            this.state.availableRooms = list.list.filter(
-              (id) => id !== this.state.myId
-            );
-            this.state.mode = "join";
+            this.state.availableRooms = list.list.filter((id) => id !== this.state.myId);
+            this.state.mode = 'join';
           });
       });
   }
 
   private async handleAnswer(answer: Answer) {
-    console.log("got answer:", {
-      type: "answer",
+    console.log('got answer:', {
+      type: 'answer',
       sdp: answer.answer,
     });
     this.pc.setRemoteDescription({
-      type: "answer",
+      type: 'answer',
       sdp: answer.answer,
     });
   }
@@ -111,46 +105,46 @@ class SenderController {
       await sendEvent(
         this.state.roomId ?? 0,
         this.state.myId ?? 0,
-        "candidate",
+        'candidate',
         JSON.stringify({
           candidate: e.candidate,
           sdpMid: e.candidate?.sdpMid,
           sdpMLineIndex: e.candidate?.sdpMLineIndex,
-        } as Candidate)
+        } as Candidate),
       );
     };
     this.pc.onconnectionstatechange = (e) => {
-      if (this.pc.connectionState === "connected") {
-        this.state.mode = "active";
+      if (this.pc.connectionState === 'connected') {
+        this.state.mode = 'active';
         this.handleConnected();
-      } else if (this.pc.connectionState === "disconnected") {
-        this.state.mode = "active";
+      } else if (this.pc.connectionState === 'disconnected') {
+        this.state.mode = 'active';
         this.leave();
       }
     };
-    const channel = this.pc.createDataChannel("main");
+    const channel = this.pc.createDataChannel('main');
     this.channel = channel;
-    channel.onopen = () => console.log("channel opened");
+    channel.onopen = () => console.log('channel opened');
     channel.onmessage = (e) => console.log();
     channel.onclose = console.log;
 
     const offer = await this.pc.createOffer();
-    console.log("creating offer:", offer);
+    console.log('creating offer:', offer);
     await this.pc.setLocalDescription(offer);
     await sendEvent(
       this.state.roomId ?? 0,
       this.state.myId ?? 0,
-      "offer",
+      'offer',
       JSON.stringify({
         from: this.state.myId ?? 0,
         offer: offer.sdp,
-        channel: "main",
-      } as Offer)
+        channel: 'main',
+      } as Offer),
     );
   }
 
   private async handleCandidate(candidate: Candidate) {
-    console.log("got remote ice candidate", candidate.candidate);
+    console.log('got remote ice candidate', candidate.candidate);
     if (!candidate.candidate) {
       await this.pc.addIceCandidate(undefined);
     } else {
@@ -163,7 +157,7 @@ class SenderController {
       this.pc.close();
       this.stream.getTracks().forEach((t) => t.stop());
     }
-    window.location.href = "/";
+    window.location.href = '/';
   }
 
   private async setupStream() {
@@ -174,14 +168,14 @@ class SenderController {
   }
 
   private async handleConnected() {
-    console.log("connected");
+    console.log('connected');
 
-    const vid = document.getElementById("localVideo") as HTMLVideoElement;
+    const vid = document.getElementById('localVideo') as HTMLVideoElement;
     vid.srcObject = this.stream;
 
     const devices = await navigator.mediaDevices.enumerateDevices();
-    this.state.audioDevices = devices.filter((d) => d.kind === "audioinput");
-    this.state.videoDevices = devices.filter((d) => d.kind === "videoinput");
+    this.state.audioDevices = devices.filter((d) => d.kind === 'audioinput');
+    this.state.videoDevices = devices.filter((d) => d.kind === 'videoinput');
   }
 
   public async changeAudio(id: string) {
@@ -189,9 +183,7 @@ class SenderController {
       audio: { deviceId: { ideal: id } },
     });
     const newAudio = stream.getAudioTracks()[0];
-    const audioSender = this.pc
-      .getSenders()
-      .filter((sender) => sender.track?.kind === "audio")[0];
+    const audioSender = this.pc.getSenders().filter((sender) => sender.track?.kind === 'audio')[0];
     audioSender.replaceTrack(newAudio);
   }
 
@@ -200,9 +192,7 @@ class SenderController {
       video: { deviceId: { ideal: id } },
     });
     const newVideo = stream.getVideoTracks()[0];
-    const videoSender = this.pc
-      .getSenders()
-      .filter((sender) => sender.track?.kind === "video")[0];
+    const videoSender = this.pc.getSenders().filter((sender) => sender.track?.kind === 'video')[0];
     videoSender.replaceTrack(newVideo);
   }
 
@@ -221,16 +211,14 @@ class SenderController {
       },
     });
     const newVideo = stream.getVideoTracks()[0];
-    const videoSender = this.pc
-      .getSenders()
-      .filter((sender) => sender.track?.kind === "video")[0];
+    const videoSender = this.pc.getSenders().filter((sender) => sender.track?.kind === 'video')[0];
     videoSender.replaceTrack(newVideo);
   }
 }
 
-document.addEventListener("visibilitychange", function logData() {
-  if (document.visibilityState === "hidden") {
-    navigator.sendBeacon("/api/unregister");
+document.addEventListener('visibilitychange', function logData() {
+  if (document.visibilityState === 'hidden') {
+    navigator.sendBeacon('/api/unregister');
   }
 });
 

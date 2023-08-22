@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -12,17 +12,8 @@
     <nav id="navbar">
       <%- include('partials/navbar.html', { name: navbarBadge }); %>
     </nav>
-    <div
-      id="main"
-      class="mt-14 mb-2 mx-2 absolute"
-      style="height: calc(100vh - 4rem); width: calc(100vw - 1rem)"
-    >
-      <p
-        x-data
-        x-cloak
-        x-show="$store.receiver.mode === 'loading'"
-        class="text-neutral-800 dark:text-slate-200"
-      >
+    <div id="main" class="mt-14 mb-2 mx-2 absolute" style="height: calc(100vh - 4rem); width: calc(100vw - 1rem)">
+      <p x-data x-cloak x-show="$store.receiver.mode === 'loading'" class="text-neutral-800 dark:text-slate-200">
         Connecting to server...
       </p>
       <div x-data x-cloak x-show="$store.receiver.error">
@@ -57,21 +48,13 @@
                 stroke="currentColor"
                 class="w-6 h-6"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
         </div>
       </div>
-      <div
-        x-data
-        x-show="$store.receiver.mode === 'active'"
-        class="w-full h-full"
-      >
+      <div x-data x-show="$store.receiver.mode === 'active'" class="w-full h-full">
         <header class="flex justify-between items-start">
           <p class="text-neutral-800 dark:text-slate-200 text-xl">
             RoomID: <span x-text="$store.receiver.myId"></span>
@@ -97,17 +80,8 @@
             </svg>
           </button>
         </header>
-        <div
-          id="videoOut"
-          class="relative mt-4"
-          style="max-height: calc(100vh - 8rem)"
-        >
-          <video
-            id="remoteVideo"
-            class="block mx-auto"
-            autoplay
-            playsinline
-          ></video>
+        <div id="videoOut" class="relative mt-4" style="max-height: calc(100vh - 8rem)">
+          <video id="remoteVideo" class="block mx-auto" autoplay playsinline></video>
         </div>
       </div>
     </div>

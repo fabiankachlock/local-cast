@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -29,12 +29,9 @@
           class="text-neutral-800 dark:text-slate-200 text-8xl font-bold"
           style="word-wrap: break-word; hyphens: none"
         >
-          <span class="text-indigo-700">L</span>ocal
-          <span class="text-indigo-700">C</span>ast
+          <span class="text-indigo-700">L</span>ocal <span class="text-indigo-700">C</span>ast
         </h1>
-        <p
-          class="text-neutral-600 dark:text-slate-400 text-2xl mt-2 cursor-default"
-        >
+        <p class="text-neutral-600 dark:text-slate-400 text-2xl mt-2 cursor-default">
           <button
             class="hover:text-indigo-600 dark:hover:text-indigo-500"
             :class="mode === 'stream' ? 'text-indigo-600 dark:text-indigo-500' : ''"
@@ -60,27 +57,20 @@
           </button>
         </p>
 
-        <div
-          x-show="mode === 'stream'"
-          class="flex items-center justify-around mt-8 flex-wrap"
-        >
+        <div x-show="mode === 'stream'" class="flex items-center justify-around mt-8 flex-wrap">
           <%- include('partials/HeroLink.html', { title: 'Stream', link:
-          'send.html' }); %> <%- include('partials/HeroLink.html', { title:
+          'send.html' }); %>
+          <%- include('partials/HeroLink.html', { title:
           'Aggregate', link: 'receive.html' }); %>
         </div>
-        <div
-          x-show="mode === 'call'"
-          class="flex items-center justify-around mt-8 flex-wrap"
-        >
+        <div x-show="mode === 'call'" class="flex items-center justify-around mt-8 flex-wrap">
           <%- include('partials/HeroLink.html', { title: 'Dial', link:
           'call.html' }); %>
         </div>
-        <div
-          x-show="mode === 'broadcast'"
-          class="flex items-center justify-around mt-8 flex-wrap"
-        >
+        <div x-show="mode === 'broadcast'" class="flex items-center justify-around mt-8 flex-wrap">
           <%- include('partials/HeroLink.html', { title: 'Join', link:
-          'call.html' }); %> <%- include('partials/HeroLink.html', { title:
+          'call.html' }); %>
+          <%- include('partials/HeroLink.html', { title:
           'Create', link: 'call.html' }); %>
         </div>
       </div>
@@ -122,10 +112,7 @@
         </svg>
       </button>
     </div>
-    <div
-      x-data
-      class="text-neutral-600 dark:text-slate-400 fixed bottom-1 left-1 right-1 z-0 text-center text-sm"
-    >
+    <div x-data class="text-neutral-600 dark:text-slate-400 fixed bottom-1 left-1 right-1 z-0 text-center text-sm">
       Made with
       <svg
         xmlns="http://www.w3.org/2000/svg"
