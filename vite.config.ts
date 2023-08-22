@@ -128,9 +128,9 @@ function MPAPlugin(dir: string): Plugin {
 
 export default defineConfig({
   server: {
-    port: 3001,
+    port: 4001,
     proxy: {
-      "/api": "http://127.0.0.1:3000/",
+      "/api": "http://127.0.0.1:4000/",
     },
   },
   plugins: [

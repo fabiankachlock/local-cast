@@ -84,6 +84,7 @@ export class UserMediaProvider {
     if (!this._stream) return this.requestUserMedia(); // use the local (merged constraints)
 
     // remove old tracks
+    const audioWasMuted = this._stream.getAudioTracks()[0]?.enabled;
     for (const track of this._stream?.getTracks()) {
       this._stream.removeTrack(track);
     }
@@ -95,6 +96,9 @@ export class UserMediaProvider {
     for (const track of newStream.getTracks()) {
       this._stream.addTrack(track);
     }
+    this._stream.getAudioTracks().forEach((track) => {
+      track.enabled = audioWasMuted;
+    });
     return this._stream;
   }
 
